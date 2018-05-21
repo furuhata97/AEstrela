@@ -7,7 +7,7 @@
 #include <set>
 #include <algorithm>
 #include <list>
-#include <math.h>
+#include <cmath>
 
 using namespace std;
 
@@ -157,10 +157,10 @@ public:
 
 
     void setHash() {
-        string key = "";
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; ++j) {
-                key+=transformaEmChar(dados_entrada[i][j]);
+        string key;
+        for (auto &i : dados_entrada) {
+            for (short j : i) {
+                key+=transformaEmChar(j);
             }
         }
         this->hash = key;
@@ -214,7 +214,7 @@ int calculaHeuristica(short config_final[4][4], short solucao_possivel[4][4], sh
     Heuristica_1 h1;
     Heuristica_2 h2;
     Heuristica_3 h3;
-    int resultado;
+    int resultado = 0;
 
     if (codigo == 1)
         resultado = h1.verifica(config_final, solucao_possivel);
@@ -326,18 +326,16 @@ std::list<PosAposMovimento> geraSucessores (PosAposMovimento posAposMovimento){
     return sucessores;
 }
 
-long A_Star(std::map<string, PosAposMovimento> A, std::map<string, PosAposMovimento> F, string HASH_SOLUCAO, short config_final[4][4], std::map<string, PosAposMovimento> auxiliar,
+long A_Star(std::map<string, PosAposMovimento> A, std::map<string, PosAposMovimento> F, const string &HASH_SOLUCAO, short config_final[4][4], std::map<string, PosAposMovimento> auxiliar,
             short CODIGO_HEURISTICA){
 
     PosAposMovimento novaSolucao;
     std::list<PosAposMovimento> sucessores;
     string fooToString;
-    //A.sort(compareTo);
     while (!A.empty()){
         //cout << A.begin()->first << endl;
         //system("pause");
-        //A.sort(compareTo);
-        novaSolucao =  A.begin()->second;//*std::min_element(A.begin(), A.end(), compareTo);
+        novaSolucao =  A.begin()->second;
         /*for (std::map<string,PosAposMovimento>::iterator it=A.begin(); it!=A.end(); ++it)
             std::cout << it->first << " => " << it->second.movimentos << '\n';*/
         A.erase(A.begin()->first);//A.remove(novaSolucao);
@@ -371,7 +369,16 @@ long A_Star(std::map<string, PosAposMovimento> A, std::map<string, PosAposMovime
                     sol.funcaoF = sol.movimentos + sol.h_linha;
                     if (sol.funcaoF <= 9)
                         fooToString = "!" + std::to_string(sol.funcaoF);
-                    else fooToString = std::to_string(sol.funcaoF);
+                    else{
+                        if (sol.funcaoF >=10 && sol.funcaoF <= 99){
+                            fooToString = "#" + std::to_string(sol.funcaoF);
+                        } else{
+                            if (sol.funcaoF >= 100 && sol.funcaoF <= 999){
+                                fooToString = "$" + std::to_string(sol.funcaoF);
+                            } else
+                                fooToString = std::to_string(sol.funcaoF);
+                        }
+                    }
                     A[fooToString + "-" + sol.getHash()] = sol;
                     auxiliar[sol.getHash()] = sol;
                 }
@@ -379,17 +386,23 @@ long A_Star(std::map<string, PosAposMovimento> A, std::map<string, PosAposMovime
             catch (const std::out_of_range& oor) {
                 try{
                     PosAposMovimento aberto = auxiliar.at(sol.getHash());
+                    sol.h_linha = calculaHeuristica(config_final, sol.dados_entrada, CODIGO_HEURISTICA);
+                    sol.funcaoF = sol.movimentos + sol.h_linha;
                     if(sol.movimentos < aberto.movimentos){
                         if (sol.funcaoF <= 9)
                             fooToString = "!" + std::to_string(sol.funcaoF);
-                        else fooToString = std::to_string(sol.funcaoF);
+                        else{
+                            if (sol.funcaoF >=10 && sol.funcaoF <= 99){
+                                fooToString = "#" + std::to_string(sol.funcaoF);
+                            } else{
+                                if (sol.funcaoF >= 100 && sol.funcaoF <= 999){
+                                    fooToString = "$" + std::to_string(sol.funcaoF);
+                                } else
+                                    fooToString = std::to_string(sol.funcaoF);
+                            }
+                        }
                         A.erase(fooToString+ "-"+sol.getHash());
                         auxiliar.erase(aberto.getHash());
-                        sol.h_linha = calculaHeuristica(config_final, sol.dados_entrada, CODIGO_HEURISTICA);
-                        sol.funcaoF = sol.movimentos + sol.h_linha;
-                        if (sol.funcaoF <= 9)
-                            fooToString = "!" + std::to_string(sol.funcaoF);
-                        else fooToString = std::to_string(sol.funcaoF);
                         A[fooToString + "-" +sol.getHash()] = sol;
                         auxiliar[sol.getHash()] = sol;
                     }
@@ -398,7 +411,16 @@ long A_Star(std::map<string, PosAposMovimento> A, std::map<string, PosAposMovime
                     sol.funcaoF = sol.movimentos + sol.h_linha;
                     if (sol.funcaoF <= 9)
                         fooToString = "!" + std::to_string(sol.funcaoF);
-                    else fooToString = std::to_string(sol.funcaoF);
+                    else{
+                        if (sol.funcaoF >=10 && sol.funcaoF <= 99){
+                            fooToString = "#" + std::to_string(sol.funcaoF);
+                        } else{
+                            if (sol.funcaoF >= 100 && sol.funcaoF <= 999){
+                                fooToString = "$" + std::to_string(sol.funcaoF);
+                            } else
+                                fooToString = std::to_string(sol.funcaoF);
+                        }
+                    }
                     A[fooToString+ "-"+sol.getHash()] = sol;
                     auxiliar[sol.getHash()] = sol;
                 }
@@ -413,7 +435,7 @@ long A_Star(std::map<string, PosAposMovimento> A, std::map<string, PosAposMovime
 
 int main(){
     static string HASH_SOLUCAO = "EH@$DCFBTSUGAVO!";
-    static short CODIGO_HEURISTICA = 2;
+    static short CODIGO_HEURISTICA = 3;
 
     short config_final[4][4] = {{4, 3, 2, 1}, {5, 6, 7, 8}, {12, 11, 10, 9}, {13, 14, 15, 0}};
     PosAposMovimento posAposMovimento;
@@ -421,11 +443,11 @@ int main(){
     std::map<string, PosAposMovimento> F;
     std::map<string, PosAposMovimento> auxiliar;
 
-    for (int i = 0; i < 4; ++i) {
-        for (int j = 0; j < 4; ++j) {
+    for (auto &i : posAposMovimento.dados_entrada) {
+        for (short &j : i) {
             short valor;
             cin >> valor;
-            posAposMovimento.dados_entrada[i][j] = valor;
+            j = valor;
         }
     }
 

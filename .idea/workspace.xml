@@ -11,7 +11,11 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c2bcbb44-96df-4f65-a377-4bc59f381e1e" name="Default" comment="" />
+    <list default="true" id="c2bcbb44-96df-4f65-a377-4bc59f381e1e" name="Default" comment="&quot;Alterando range de caracteres para funcaoF + Hash&quot;">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -26,8 +30,8 @@
       <file leaf-file-name="main.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="250">
-              <caret line="415" column="38" selection-start-line="415" selection-start-column="38" selection-end-line="415" selection-end-column="38" />
+            <state relative-caret-position="437">
+              <caret line="446" column="10" selection-start-line="446" selection-start-column="10" selection-end-line="446" selection-end-column="10" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
@@ -59,6 +63,9 @@
       <replace>movimentos</replace>
     </replaceStrings>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
@@ -80,6 +87,7 @@
     <option name="width" value="974" />
     <option name="height" value="1047" />
   </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
@@ -141,12 +149,12 @@
       <workItem from="1526596661032" duration="48507000" />
       <workItem from="1526738434023" duration="789000" />
       <workItem from="1526772478950" duration="60630000" />
-      <workItem from="1526889590663" duration="8215000" />
+      <workItem from="1526889590663" duration="9579000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="140027000" />
+    <option name="totallyTimeSpent" value="141391000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -156,7 +164,7 @@
       <window_info anchor="bottom" id="Messages" order="7" weight="0.31137088" />
       <window_info anchor="bottom" id="CMake" order="7" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
-      <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.33049947" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.32943678" />
@@ -176,6 +184,10 @@
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="&quot;Alterando range de caracteres para funcaoF + Hash&quot;" />
+    <option name="LAST_COMMIT_MESSAGE" value="&quot;Alterando range de caracteres para funcaoF + Hash&quot;" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/main.cpp">
@@ -257,8 +269,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="250">
-          <caret line="415" column="38" selection-start-line="415" selection-start-column="38" selection-end-line="415" selection-end-column="38" />
+        <state relative-caret-position="437">
+          <caret line="446" column="10" selection-start-line="446" selection-start-column="10" selection-end-line="446" selection-end-column="10" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
           </folding>
