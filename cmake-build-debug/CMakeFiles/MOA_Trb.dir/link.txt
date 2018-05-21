@@ -1,0 +1,3 @@
+C:\Users\gusta\AppData\Local\JetBrains\Toolbox\apps\CLion\ch-0\181.4668.70\bin\cmake\bin\cmake.exe -E remove -f CMakeFiles\MOA_Trb.dir/objects.a
+C:\MinGW\bin\ar.exe cr CMakeFiles\MOA_Trb.dir/objects.a @CMakeFiles\MOA_Trb.dir\objects1.rsp
+C:\MinGW\bin\g++.exe -g   -Wl,--whole-archive CMakeFiles\MOA_Trb.dir/objects.a -Wl,--no-whole-archive  -o MOA_Trb.exe -Wl,--out-implib,libMOA_Trb.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\MOA_Trb.dir\linklibs.rsp

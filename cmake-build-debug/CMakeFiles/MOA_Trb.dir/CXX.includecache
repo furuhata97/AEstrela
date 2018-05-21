@@ -1,0 +1,30 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/gusta/Desktop/MOA_Trb/main.cpp
+iostream
+-
+fstream
+-
+string
+-
+vector
+-
+map
+-
+cassert
+-
+set
+-
+algorithm
+-
+list
+-
+math.h
+-
+

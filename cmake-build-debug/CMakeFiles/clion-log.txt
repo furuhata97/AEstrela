@@ -1,0 +1,4 @@
+C:\Users\gusta\AppData\Local\JetBrains\Toolbox\apps\CLion\ch-0\181.4668.70\bin\cmake\bin\cmake.exe -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - MinGW Makefiles" C:\Users\gusta\Desktop\MOA_Trb
+-- Configuring done
+-- Generating done
+-- Build files have been written to: C:/Users/gusta/Desktop/MOA_Trb/cmake-build-debug
