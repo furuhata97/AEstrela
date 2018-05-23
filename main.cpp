@@ -207,6 +207,8 @@ public:
                 return "V";
             case 15:
                 return "O";
+            default:
+                return "W";
         }
     }
 };
@@ -342,12 +344,13 @@ long A_Star(std::map<string, PosAposMovimento> A, std::map<string, PosAposMovime
         A.erase(A.begin()->first);//A.remove(novaSolucao);
         //auxiliar.erase(novaSolucao.getHash());
 
-        //cout << calculaHeuristica(config_final, novaSolucao.dados_entrada, 2) << endl;
-        //system("pause");
+        // system("pause");
 
 
         if(novaSolucao.getHash() == HASH_SOLUCAO){
+            //cout << novaSolucao.funcaoF  << '\n';
             return novaSolucao.movimentos;
+
         }
 
 
@@ -362,16 +365,18 @@ long A_Star(std::map<string, PosAposMovimento> A, std::map<string, PosAposMovime
             //sol.setHash();
             sol.h_linha = calculaHeuristica(config_final, sol.dados_entrada, CODIGO_HEURISTICA);
             sol.funcaoF = sol.movimentos + sol.h_linha;
+
+            int t = 10000;
             if (sol.funcaoF <= 9)
-                fooToString = "!" + std::to_string(sol.funcaoF);
+                fooToString = "!" + std::to_string(sol.funcaoF) + std::to_string(t-sol.movimentos);
             else{
                 if (sol.funcaoF >=10 && sol.funcaoF <= 99){
-                    fooToString = "#" + std::to_string(sol.funcaoF);
+                    fooToString = "#" + std::to_string(sol.funcaoF) + std::to_string(t-sol.movimentos);
                 } else{
                     if (sol.funcaoF >= 100 && sol.funcaoF <= 999){
-                        fooToString = "$" + std::to_string(sol.funcaoF);
+                        fooToString = "$" + std::to_string(sol.funcaoF) + std::to_string(t-sol.movimentos);
                     } else
-                        fooToString = std::to_string(sol.funcaoF);
+                        fooToString = std::to_string(sol.funcaoF) + std::to_string(t-sol.movimentos);
                 }
             }
 
@@ -380,15 +385,13 @@ long A_Star(std::map<string, PosAposMovimento> A, std::map<string, PosAposMovime
 
                 if (sol.movimentos < fechado.movimentos){
                     F.erase(fechado.getHash());
-                    sol.h_linha = calculaHeuristica(config_final, sol.dados_entrada, CODIGO_HEURISTICA);
-                    sol.funcaoF = sol.movimentos + sol.h_linha;
                     A[fooToString + "-" + sol.getHash()] = sol;
                     //auxiliar[sol.getHash()] = sol;
                 }
             }
             catch (const std::out_of_range& oor) {
                 try{
-                    PosAposMovimento aberto = A.at(fooToString+sol.getHash());//auxiliar.at(sol.getHash());
+                    PosAposMovimento aberto = A.at(fooToString+"-"+sol.getHash());//auxiliar.at(sol.getHash());
                     if(sol.movimentos < aberto.movimentos){
                         A.erase(fooToString+ "-"+sol.getHash());
                         //auxiliar.erase(aberto.getHash());
@@ -412,7 +415,6 @@ int main(){
     static string HASH_SOLUCAO = "EH@$DCFBTSUGAVO!";
     static short CODIGO_HEURISTICA = 3;
 
-    clock_t begin = clock();
 
     short config_final[4][4] = {{4, 3, 2, 1}, {5, 6, 7, 8}, {12, 11, 10, 9}, {13, 14, 15, 0}};
     PosAposMovimento posAposMovimento;
@@ -432,17 +434,18 @@ int main(){
     posAposMovimento.funcaoF = 0;
     posAposMovimento.setHash();
     string fooToString;
-        fooToString = "!" + std::to_string(posAposMovimento.funcaoF);
+    fooToString = "!" + std::to_string(posAposMovimento.funcaoF);
     A[fooToString+"-"+posAposMovimento.getHash()] = posAposMovimento;
     auxiliar[posAposMovimento.hash] = posAposMovimento;
+    //clock_t begin = clock();
     int resultado = A_Star(A, F, HASH_SOLUCAO, config_final, auxiliar, CODIGO_HEURISTICA);
     if (resultado == 0){
         return 0;
     }
     else
-    cout <<  resultado;
+        cout <<  resultado;
 
-    clock_t end = clock();
+    /*clock_t end = clock();
     double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
-    cout << endl << elapsed_secs;
+    cout << endl << elapsed_secs << "s";*/
 }
