@@ -223,6 +223,9 @@ MOA_Trb_BINARY_DIR:STATIC=C:/Users/gusta/Desktop/MOA_Trb/cmake-build-debug
 //Value Computed by CMake
 MOA_Trb_SOURCE_DIR:STATIC=C:/Users/gusta/Desktop/MOA_Trb
 
+//Path to a library.
+PSAPI:FILEPATH=C:/MinGW/lib/libpsapi.a
+
 
 ########################
 # INTERNAL cache entries

@@ -4,3 +4,4 @@ project(MOA_Trb)
 set(CMAKE_CXX_STANDARD 11)
 
 add_executable(MOA_Trb main.cpp)
+target_link_libraries(MOA_Trb -lpsapi)

@@ -9,17 +9,9 @@
 C:/Users/gusta/Desktop/MOA_Trb/main.cpp
 iostream
 -
-fstream
--
 string
 -
 vector
--
-map
--
-cassert
--
-set
 -
 algorithm
 -
@@ -29,4 +21,16 @@ cmath
 -
 ctime
 -
+unordered_map
+-
+queue
+-
+array
+-
+unordered_set
+-
+windows.h
+C:/Users/gusta/Desktop/MOA_Trb/windows.h
+psapi.h
+C:/Users/gusta/Desktop/MOA_Trb/psapi.h
 
