@@ -9,8 +9,8 @@
 #include <queue>
 #include <array>
 #include <unordered_set>
-//#include "windows.h"
-//#include "psapi.h"
+#include "windows.h"
+#include "psapi.h"
 
 
 using namespace std;
@@ -42,14 +42,8 @@ public:
     int h_linha;
     long funcaoF;
     int origem = 0;
-    std::array<short, 16> hash;
     int movimentos = 0;
     bool temPai = false;
-
-    void setHash() {
-        this->hash = this->dados_entrada;
-    }
-
 };
 
 int h1(std::array<short, 16> config_final,  std::array<short, 16> dados_entrada){
@@ -63,45 +57,38 @@ int h1(std::array<short, 16> config_final,  std::array<short, 16> dados_entrada)
     return posicao_Errada;
 }
 
-int h2(std::array<short, 16> dados_entrada){
-    int posicao_Errada = 0;
-    std::array<short, 16> dados = dados_entrada;
-    for (short j = 0; j < 16; j++) {
-        if (dados[j] != 0){
-            if (dados[j] == 15)
-                dados[j] = -1;
-            if (j == 0 || j == 8 || j == 7){
-                if (dados_entrada[j]+1 != dados_entrada[j+4])
-                    posicao_Errada++;
-            }else{
-                if(j == 1 || j == 2 || j == 3 || j == 9 || j == 10 || j == 11){
-                    if (dados_entrada[j]+1 != dados_entrada[j-1])
-                        posicao_Errada++;
-                }else{
-                    if (j == 4 || j == 6 || j == 5 || j == 12 || j == 13 || j == 14){
-                        if (dados_entrada[j]+1 != dados_entrada[j+1])
-                            posicao_Errada++;
-                    }
-                }
-            }
+
+int converte_pos_correta(int i, std::array<short, 16> pos_correta){
+    return pos_correta[i];
+}
+
+static int h2(std::array<short, 16> solucao_possivel, std::array<short, 16> pos_correta) {
+    int peca_esperada = solucao_possivel[0];
+    int r = 0, i;
+
+    for (i = 0; i < 16; i++) {
+        int pos = converte_pos_correta(i, pos_correta);
+        if (peca_esperada == 0 + 1)
+            peca_esperada = solucao_possivel[pos];
+        else if (solucao_possivel[pos] != peca_esperada) {
+            r++;
+            peca_esperada = solucao_possivel[pos];
         }
+        peca_esperada = (peca_esperada + 1) % 16;
     }
-    return posicao_Errada;
+    return r;
 }
 
 int distancia_manhattan(int posicao_atual, int posicao_correta){
-    int ponto_atual_X = (int)((double)posicao_atual/(double)4);
+    auto ponto_atual_X = (int)((double)posicao_atual/(double)4);
     int ponto_atual_Y = posicao_atual%4;
-    int ponto_correto_X = (int)((double)posicao_correta/(double)4);
+    auto ponto_correto_X = (int)((double)posicao_correta/(double)4);
     int ponto_correto_Y = posicao_correta%4;
     int diferenca_X = std::abs(ponto_atual_X - ponto_correto_X);
     int diferenca_Y = std::abs(ponto_atual_Y - ponto_correto_Y);
     return diferenca_X + diferenca_Y;
 }
 
-int converte_pos_correta(int i, std::array<short, 16> pos_correta){
-    return pos_correta[i];
-}
 
 int h3(std::array<short, 16> pos_correta, std::array<short, 16> solucao_possivel){
     int resultado = 0;
@@ -118,13 +105,13 @@ int h3(std::array<short, 16> pos_correta, std::array<short, 16> solucao_possivel
     if (cod == 1)
         resultado = h1(config_final, solucao_possivel);
     if (cod == 2)
-        resultado = h2(solucao_possivel);
+        resultado = h2(solucao_possivel, pos_correta);
     if (cod == 3)
         resultado = h3(pos_correta, solucao_possivel);
     if(cod == 4)
-        resultado = (int)((0.1 * h1(config_final, solucao_possivel)) + (0.4 * h2(solucao_possivel)) + (0.5 * h3(pos_correta, solucao_possivel)));
+        resultado = (int)((0.17D * (double)h1(config_final, solucao_possivel)) + (0.03D * (double)h2(solucao_possivel, pos_correta)) + (0.8D * (double)h3(pos_correta, solucao_possivel)));
     if(cod == 5)
-        resultado = (std::max(std::max(h1(config_final, solucao_possivel), h2(solucao_possivel)), h3(pos_correta, solucao_possivel)));
+        resultado = (std::max(std::max(h1(config_final, solucao_possivel), h2(solucao_possivel, pos_correta)), h3(pos_correta, solucao_possivel)));
 
     return resultado;
 }
@@ -150,7 +137,7 @@ struct comparer {
 std::list<PosAposMovimento> geraSucessores (PosAposMovimento &posAposMovimento){
     std::list<PosAposMovimento> sucessores;
         for (int j = 0; j < 16; j++) {
-            int ponto_atual_X = (int)((double)j/(double)4);
+            auto ponto_atual_X = (int)((double)j/(double)4);
             int ponto_atual_Y = j%4;
             if (posAposMovimento.dados_entrada[j] == 0){
                 if (ponto_atual_X != 0 && (!posAposMovimento.temPai || posAposMovimento.origem != -1)){
@@ -161,9 +148,6 @@ std::list<PosAposMovimento> geraSucessores (PosAposMovimento &posAposMovimento){
                     short aux = up.dados_entrada[j];
                     up.dados_entrada[j] = up.dados_entrada[j-4];
                     up.dados_entrada[j-4] = aux;
-
-                    //up.setHash();
-                    //up.pai = &posAposMovimento;
                     up.origem = 1;
                     up.temPai = true;
                     sucessores.push_back(up);
@@ -177,9 +161,6 @@ std::list<PosAposMovimento> geraSucessores (PosAposMovimento &posAposMovimento){
                     short aux = down.dados_entrada[j];
                     down.dados_entrada[j] = down.dados_entrada[j+4];
                     down.dados_entrada[j+4] = aux;
-
-                    //down.setHash();
-                    //down.pai = &posAposMovimento;
                     down.origem = -1;
                     down.temPai = true;
                     sucessores.push_back(down);
@@ -194,9 +175,6 @@ std::list<PosAposMovimento> geraSucessores (PosAposMovimento &posAposMovimento){
                     short aux = left.dados_entrada[j];
                     left.dados_entrada[j] = left.dados_entrada[j-1];
                     left.dados_entrada[j - 1] = aux;
-
-                    //left.setHash();
-                    //left.pai = &posAposMovimento;
                     left.origem = 2;
                     left.temPai = true;
                     sucessores.push_back(left);
@@ -210,9 +188,6 @@ std::list<PosAposMovimento> geraSucessores (PosAposMovimento &posAposMovimento){
                     short aux = right.dados_entrada[j];
                     right.dados_entrada[j] = right.dados_entrada[j+1];
                     right.dados_entrada[j+1] = aux;
-
-                    //right.setHash();
-                    //right.pai = &posAposMovimento;
                     right.origem = -2;
                     right.temPai = true;
                     sucessores.push_back(right);
@@ -230,30 +205,18 @@ long A_Star(std::priority_queue<PosAposMovimento, vector<PosAposMovimento>, comp
 
     while (!A.empty()){
         novaSolucao =  A.top();
-        /*if (novaSolucao.funcaoF == 45 && novaSolucao.movimentos == 3){
-            cout << novaSolucao.hash << endl;
-        }*/
         //std::cout<< novaSolucao.getHash() << " => " << novaSolucao.funcaoF << " => " << novaSolucao.movimentos << '\n';
-        //std::cout << novaSolucao.hashCode << " => " << novaSolucao.movimentos << '\n';
-        /*for (std::map<string,PosAposMovimento>::iterator it=A.begin(); it!=A.end(); ++it)
-            std::cout << it->first << " => " << it->second.movimentos << '\n';*/
-        A.pop();//A.remove(novaSolucao);
-        //auxiliar.erase(novaSolucao.getHash());
+
+        A.pop();
 
         //system("pause");
 
-
-
-        //auto range = F.equal_range(novaSolucao.hash);
         if (novaSolucao.dados_entrada == config_final){
             return novaSolucao.movimentos;
         }
 
 
-
-
         F.insert({novaSolucao.dados_entrada, novaSolucao});
-        //F[novaSolucao.hashCode] = novaSolucao;
 
         sucessores = geraSucessores(novaSolucao);
 
@@ -274,13 +237,12 @@ long A_Star(std::priority_queue<PosAposMovimento, vector<PosAposMovimento>, comp
 
 int main(){
 
-    /*uint64_t currentUsedRAM(0);
+    uint64_t currentUsedRAM(0);
 
     PROCESS_MEMORY_COUNTERS info;
     GetProcessMemoryInfo(GetCurrentProcess(), &info, sizeof(info));
-    currentUsedRAM = info.WorkingSetSize;*/
+    currentUsedRAM = info.WorkingSetSize;
 
-    //int hash_solucao[16] = {4, 3, 2, 1, 5, 6, 7, 8, 12, 11, 10, 9, 13, 14, 15, 0};//"!#$0ABCDEFGHIJKL";
 
     int cod = 3;
     std::array<short, 16> config_final = {4, 3, 2, 1, 5, 6, 7, 8, 12, 11, 10, 9, 13, 14, 15, 0};
@@ -297,7 +259,6 @@ int main(){
 
     posAposMovimento.h_linha = calculaHeuristica(cod, pos_correta, config_final, posAposMovimento.dados_entrada);
     posAposMovimento.funcaoF = posAposMovimento.h_linha;
-    //posAposMovimento.setHash();
     A.push(posAposMovimento);
 
     clock_t begin = clock();
@@ -311,7 +272,7 @@ int main(){
     clock_t end = clock();
     double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
     cout << endl << elapsed_secs << "s";
-    /*GetProcessMemoryInfo(GetCurrentProcess(), &info, sizeof(info));
+    GetProcessMemoryInfo(GetCurrentProcess(), &info, sizeof(info));
     currentUsedRAM = info.WorkingSetSize - currentUsedRAM;
-    cout << endl << ((double)currentUsedRAM/(double)1048576) << "MB " << currentUsedRAM << endl;*/
+    cout << endl << ((double)currentUsedRAM/(double)1048576) << "MB " << currentUsedRAM << endl;
 }
